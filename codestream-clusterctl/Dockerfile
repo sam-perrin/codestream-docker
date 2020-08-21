@@ -1,6 +1,9 @@
 FROM acharbor01.automationcore.xtravirt.com/xtravirt/codestream-ci:latest
 LABEL maintainer="sam.perrin@xtravirt.com"
 
+ENV GO_Version 1.14
+ENV GOVC_Version v0.22.1
+
 # Install ovftool
 ADD VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle .
 RUN chmod +x VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle && \
