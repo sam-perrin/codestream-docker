@@ -2,21 +2,29 @@ FROM acharbor01.automationcore.xtravirt.com/xtravirt/codestream-ci:latest
 LABEL maintainer="sam.perrin@xtravirt.com"
 
 # Install ovftool
-COPY VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle .
+ADD VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle .
 RUN chmod +x VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle && \
-    ./VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle
+    ./VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle --console --eulas-agreed --required && \
+    rm -rf VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle
 
-# Install Go
-RUN apk add --no-cache make go jq
 
-# Configure Go
-ENV GOROOT /usr/lib/go
-ENV GOPATH /go
-ENV PATH /go/bin:$PATH
-RUN mkdir -p ${GOPATH}/src ${GOPATH}/bin
+# Install GO
+RUN wget --quiet https://dl.google.com/go/go$GO_Version.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go$GO_Version.linux-amd64.tar.gz && \
+    export PATH=$PATH:/usr/local/go/bin && \
+    source ~/.bash_profile
 
-# Install Govc
-RUN go get -u github.com/vmware/govmomi/govc && rm -rf /var/cache/apk/*
+# Download and Extract GOVC
+RUN wget --quiet https://github.com/vmware/govmomi/releases/download/$GOVC_Version/govc_linux_amd64.gz && \
+    gunzip -fq govc_linux_amd64.gz && \
+    mv govc_linux_amd64 govc && \
+    chown root govc && \
+    chmod ug+r+x govc && \
+    mv govc /usr/local/bin/.
+
+# Install jq
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    yum install jq -y
 
 # Install kubectl
 RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && \
