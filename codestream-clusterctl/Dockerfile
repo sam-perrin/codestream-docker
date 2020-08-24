@@ -9,7 +9,7 @@ ENV OVFTOOL_FILENAME=VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle
 ADD $OVFTOOL_FILENAME /tmp/
 WORKDIR /root
 RUN chmod +x /tmp/$OVFTOOL_FILENAME && \
-    /bin/sh ./VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle --console --eulas-agreed --required && \
+    /bin/sh /tmp/$OVFTOOL_FILENAME --console --eulas-agreed --required && \
     rm -f $OVFTOOL_FILENAME
 
 # Install GO
