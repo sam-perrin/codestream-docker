@@ -3,13 +3,14 @@ LABEL maintainer="sam.perrin@xtravirt.com"
 
 ENV GO_Version 1.14
 ENV GOVC_Version v0.22.1
+ENV OVFTOOL_FILENAME=VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle
 
 # Install ovftool
-ADD VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle .
-RUN chmod +x VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle && \
-    ./VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle --console --eulas-agreed --required && \
-    rm -rf VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle
-
+ADD $OVFTOOL_FILENAME /tmp/
+WORKDIR /root
+RUN chmod +x /tmp/$OVFTOOL_FILENAME && \
+    /bin/sh ./VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle --console --eulas-agreed --required && \
+    rm -f $OVFTOOL_FILENAME
 
 # Install GO
 RUN wget --quiet https://dl.google.com/go/go$GO_Version.linux-amd64.tar.gz && \
@@ -38,4 +39,3 @@ RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -
 RUN curl -L https://github.com/kubernetes-sigs/cluster-api/releases/download/v0.3.8/clusterctl-linux-amd64 -o clusterctl && \
     mv clusterctl /usr/bin/clusterctl && \
     chmod +x /usr/bin/clusterctl
-
