@@ -1,9 +1,14 @@
-FROM acharbor01.automationcore.xtravirt.com/xtravirt/codestream-ci:latest
+FROM samperrin/codestream-ci:latest
 LABEL maintainer="sam.perrin@xtravirt.com"
 
 ENV GO_Version 1.14
 ENV GOVC_Version v0.22.1
 ENV OVFTOOL_FILENAME=VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle
+
+# Install additional tools
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    yum install jq -y && \
+    yum install python3 -y
 
 # Install ovftool
 ADD $OVFTOOL_FILENAME /tmp/
@@ -25,10 +30,6 @@ RUN wget --quiet https://github.com/vmware/govmomi/releases/download/$GOVC_Versi
     chown root govc && \
     chmod ug+r+x govc && \
     mv govc /usr/local/bin/.
-
-# Install jq
-RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    yum install jq -y
 
 # Install kubectl
 RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && \
