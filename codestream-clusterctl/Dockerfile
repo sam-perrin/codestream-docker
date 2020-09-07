@@ -15,7 +15,7 @@ ADD $OVFTOOL_FILENAME /tmp/
 WORKDIR /root
 RUN chmod +x /tmp/$OVFTOOL_FILENAME && \
     /bin/sh /tmp/$OVFTOOL_FILENAME --console --eulas-agreed --required && \
-    rm -f $OVFTOOL_FILENAME
+    rm -f /tmp/$OVFTOOL_FILENAME
 
 # Install GO
 RUN wget --quiet https://dl.google.com/go/go$GO_Version.linux-amd64.tar.gz && \
@@ -30,6 +30,7 @@ RUN wget --quiet https://github.com/vmware/govmomi/releases/download/$GOVC_Versi
     chown root govc && \
     chmod ug+r+x govc && \
     mv govc /usr/local/bin/.
+    #
 
 # Install kubectl
 RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && \
