@@ -4,7 +4,7 @@ LABEL maintainer="sam.perrin@xtravirt.com"
 ARG GOVC_VERSION=0.22.1
 ARG OVFTOOL_FILENAME=VMware-ovftool-4.4.0-16360108-lin.x86_64.bundle
 
-ADD $OVFTOOL_FILENAME /tmp/
+# ADD $OVFTOOL_FILENAME /tmp/
 
 # Install additional tools
 RUN apk add --no-cache jq python3 && \
@@ -19,9 +19,13 @@ RUN apk add glibc-2.32-r0.apk glibc-bin-2.32-r0.apk glibc-i18n-2.32-r0.apk && \
     rm -f glibc-2.32-r0.apk glibc-bin-2.32-r0.apk glibc-i18n-2.32-r0.apk
 
 # Install ovftool
-RUN chmod +x /tmp/$OVFTOOL_FILENAME && \ 
-    /bin/sh /tmp/$OVFTOOL_FILENAME --console --eulas-agreed --required && \
-    rm -f /tmp/$OVFTOOL_FILENAME
+# RUN chmod +x /tmp/$OVFTOOL_FILENAME && \ 
+#     /bin/sh /tmp/$OVFTOOL_FILENAME --console --eulas-agreed --required && \
+#     rm -f /tmp/$OVFTOOL_FILENAME
+RUN wget --quiet https://raw.githubusercontent.com/sam-perrin/codestream-cluster-api/master/files/$OVFTOOL_FILENAME && \
+    chmod +x /$OVFTOOL_FILENAME && \
+    /bin/sh /$OVFTOOL_FILENAME --console --eulas-agreed --required && \
+    rm -f /$OVFTOOL_FILENAME
 
 #Download and Extract GOVC
 RUN wget --quiet https://github.com/vmware/govmomi/releases/download/v$GOVC_VERSION/govc_linux_amd64.gz && \

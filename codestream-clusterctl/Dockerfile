@@ -11,11 +11,15 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     yum install python3 -y
 
 # Install ovftool
-ADD $OVFTOOL_FILENAME /tmp/
-WORKDIR /root
-RUN chmod +x /tmp/$OVFTOOL_FILENAME && \
-    /bin/sh /tmp/$OVFTOOL_FILENAME --console --eulas-agreed --required && \
-    rm -f /tmp/$OVFTOOL_FILENAME
+# ADD $OVFTOOL_FILENAME /tmp/
+# WORKDIR /root
+# RUN chmod +x /tmp/$OVFTOOL_FILENAME && \
+#     /bin/sh /tmp/$OVFTOOL_FILENAME --console --eulas-agreed --required && \
+#     rm -f /tmp/$OVFTOOL_FILENAME
+RUN wget --quiet https://raw.githubusercontent.com/sam-perrin/codestream-cluster-api/master/files/$OVFTOOL_FILENAME && \
+    chmod +x /$OVFTOOL_FILENAME && \
+    /bin/sh /$OVFTOOL_FILENAME --console --eulas-agreed --required && \
+    rm -f /$OVFTOOL_FILENAME
 
 # Install GO
 RUN wget --quiet https://dl.google.com/go/go$GO_Version.linux-amd64.tar.gz && \
