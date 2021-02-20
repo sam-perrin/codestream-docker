@@ -10,8 +10,6 @@ ENV PACKER_VERSION=1.7.0 \
 # Packer path setup
 ENV PACKER_ZIPFILE=packer_${PACKER_VERSION}_${PACKER_OSNAME}_${PACKER_OSARCH}.zip
 
-RUN apk add --no-cache
-
 # Install packer in path
 ADD https://releases.hashicorp.com/packer/${PACKER_VERSION}/${PACKER_ZIPFILE} ${PACKER_DEST}/
 RUN unzip ${PACKER_DEST}/${PACKER_ZIPFILE} -d ${PACKER_DEST} && \
