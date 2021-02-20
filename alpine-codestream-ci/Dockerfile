@@ -14,5 +14,4 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
     wget "${APK_GLIBC_BASE_URL}/${APK_GLIBC_BIN_FILE}" && \
     apk --no-cache add "${APK_GLIBC_FILE}" && \
     apk --no-cache add "${APK_GLIBC_BIN_FILE}" && \
-    /usr/glibc-compat/bin/localedef -i en_GB -f UTF-8 en_GB.UTF-8 && \
     rm glibc-*
