@@ -20,4 +20,5 @@ RUN unzip ${PACKER_DEST}/${PACKER_ZIPFILE} -d ${PACKER_DEST} && \
 RUN wget --quiet https://github.com/rgl/packer-provisioner-windows-update/releases/download/v0.11.0/${WIN_PROVISIONER_TAR} && \
     tar -xvf ${WIN_PROVISIONER_TAR} ${WIN_PROVISIONER_FILE} && \
     mv ${WIN_PROVISIONER_FILE} ${PACKER_DEST} && \
-    rm ${WIN_PROVISIONER_TAR}
+    chmod +x ${PACKER_DEST}/${WIN_PROVISIONER_FILE} && \
+    rm ${WIN_PROVISIONER_TAR} 
