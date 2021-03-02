@@ -1,4 +1,4 @@
-FROM samperrin/codestream-ci:latest
+FROM samperrin/centos-codestream-ci:latest
 LABEL maintainer="sam.perrin@xtravirt.com"
 
 ENV GO_Version 1.14
