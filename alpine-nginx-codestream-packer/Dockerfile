@@ -37,3 +37,5 @@ RUN wget --quiet https://github.com/rgl/packer-provisioner-windows-update/releas
     mv ${WIN_PROVISIONER_FILE} ${PACKER_DEST} && \
     chmod +x ${PACKER_DEST}/${WIN_PROVISIONER_FILE} && \
     rm ${WIN_PROVISIONER_TAR} 
+
+EXPOSE 80
